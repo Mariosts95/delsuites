@@ -8,7 +8,8 @@
 }
 
 body {
-  color: #fff;
+  background-color: $secondary_color;
+  color: $text_white;
   margin: 0;
   font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -50,4 +51,14 @@ ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
+}
+
+// home
+.App-header {
+  button {
+    background-color: $primary_color;
+    &:hover {
+      background-color: $primary_color;
+    }
+  }
 }
