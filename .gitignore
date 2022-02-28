@@ -7,3 +7,14 @@ node_modules/
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
