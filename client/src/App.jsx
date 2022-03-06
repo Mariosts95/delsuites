@@ -1,7 +1,11 @@
 import { useState } from 'react';
 
 // @Material UI
-import Button from '@mui/material/Button';
+import Header from './components/Header';
+
+// Theme
+import { ThemeProvider, Button, Paper, Typography, Box } from '@mui/material';
+import { lightTheme, darkTheme } from './helpers/theme';
 
 import logo from './logo.svg';
 import './App.css';
@@ -10,20 +14,25 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>Hello Vite + React + MUI!</p>
-        <p>
-          <Button
-            variant='contained'
-            onClick={() => setCount((count) => count + 1)}
-          >
-            count is: {count}
-          </Button>
-        </p>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <Paper>
+        <Header />
+        <header className='App-header'>
+          <img src={logo} className='App-logo' alt='logo' />
+          <Typography variant='h1' align='center' gutterBottom>
+            Hello Vite + React + MUI!
+          </Typography>
+          <Box>
+            <Button
+              variant='outlined'
+              onClick={() => setCount((count) => count + 1)}
+            >
+              count is: {count}
+            </Button>
+          </Box>
+        </header>
+      </Paper>
+    </ThemeProvider>
   );
 }
 
