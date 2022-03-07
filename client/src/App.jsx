@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 // @Material UI
-import Header from './components/Header';
+import Header from './components/layout/Header';
 
 // Theme
 import { ThemeProvider, Button, Paper, Typography, Box } from '@mui/material';
