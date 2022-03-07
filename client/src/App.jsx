@@ -1,3 +1,4 @@
+// React
 import { useState } from 'react';
 
 // @Material UI
@@ -7,8 +8,12 @@ import Header from './components/layout/Header';
 import { ThemeProvider, Button, Paper, Typography, Box } from '@mui/material';
 import { lightTheme, darkTheme } from './helpers/theme';
 
+// Assets
 import logo from './logo.svg';
 import './App.css';
+
+// Screens
+import Home from './screens/Home';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -31,6 +36,7 @@ function App() {
             </Button>
           </Box>
         </header>
+        <Home />
       </Paper>
     </ThemeProvider>
   );
