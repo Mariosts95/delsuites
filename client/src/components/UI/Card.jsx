@@ -10,7 +10,7 @@ import StarsRating from './StarsRating';
 
 const NewCard = () => {
   return (
-    <Card sx={{ backgroundColor: 'secondary.light' }}>
+    <Card sx={{ backgroundColor: 'secondary.dark' }}>
       <CardMedia
         sx={{ pt: '56.25%' }}
         image='https://source.unsplash.com/random'
