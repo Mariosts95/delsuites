@@ -1,0 +1,25 @@
+{
+  "name": "delsuites",
+  "version": "1.0.0",
+  "description": "Booking web application",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start_client": "yarn workspace client dev",
+    "start_server": "yarn workspace server start_dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mariosts95/delsuites.git"
+  },
+  "author": "Marios Tsioutsis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mariosts95/delsuites/issues"
+  },
+  "homepage": "https://github.com/Mariosts95/delsuites#readme"
+}
