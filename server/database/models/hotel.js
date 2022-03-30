@@ -36,4 +36,7 @@ const hotelSchema = mongoose.Schema({
 // index the hotels collection in db by ID
 hotelSchema.index({ hotelId: 1 });
 
-module.exports = { hotelSchema };
+// assign the document in the 'hotel' collection in db
+const Hotel = mongoose.model('hotel', hotelSchema);
+
+module.exports = Hotel;
