@@ -11,8 +11,11 @@ require('./database/connection');
 // use express.json to parse json data from the body (leaving it for future use)
 app.use(express.json());
 
+const { fetchHotels } = require('./services/fetchHotels');
+
 app.get('/', async (req, res, next) => {
-  res.send('hello world');
+  const data = await fetchHotels();
+  return res.send(data);
 });
 
 app.listen(process.env.PORT || 3101, () => {
