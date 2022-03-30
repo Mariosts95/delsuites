@@ -9,7 +9,7 @@ const { timeRangeSchema } = require('./timeRange');
 
 // Schema for each hotel in db
 const hotelSchema = mongoose.Schema({
-  hotelId: { String, unique: true },
+  hotelId: String,
   name: String,
   starRating: Number || null,
   currency: String,
@@ -36,4 +36,4 @@ const hotelSchema = mongoose.Schema({
 // index the hotels collection in db by ID
 hotelSchema.index({ hotelId: 1 });
 
-module.exports = hotelSchema;
+module.exports = { hotelSchema };
