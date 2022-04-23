@@ -1,13 +1,16 @@
 const express = require('express');
 const cors = require('cors');
+const routes = require('./routes');
 
 // import the hotels service
 const { fetchHotels } = require('./services/fetchHotels');
+
 // import the hotels db actions
-const { addHotels, getHotels, hotelsCounter } = require('./database/actions/hotels');
+const { addHotels, getAllHotels, hotelsCounter } = require('./database/actions/hotels');
 
 // initialize express
 const app = express();
+
 //  enable cors middleware
 app.use(cors());
 
@@ -17,9 +20,12 @@ require('./database/connection');
 // use express.json to parse json data from the body (leaving it for future use)
 app.use(express.json());
 
+// use the routes
+app.use('/', routes);
+
 // root router
-app.get('/', async (req, res, next) => {
-  const hotels = await getHotels();
+app.get('/', async (req, res) => {
+  const hotels = await getAllHotels();
   return res.send(hotels);
 });
 
