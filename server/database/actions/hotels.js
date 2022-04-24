@@ -11,11 +11,34 @@ const addHotels = async (hotels) => {
 };
 
 // get hotels from db
-const getHotels = async () => {
+const getAllHotels = async () => {
   // get all hotels from db
   const hotels = await Hotel.find().exec();
   // return hotels
   return hotels;
+};
+
+// get hotels from db paginated
+const getHotels = async (page, size) => {
+  // convert the params from string to number
+  page = parseInt(page);
+  size = parseInt(size);
+
+  // get hotels from db
+  const hotels = await Hotel.find()
+    .skip(page * size)
+    .limit(size)
+    .exec();
+  // return hotels
+  return hotels;
+};
+
+// get specific hotel from db
+const findHotel = async (id) => {
+  // get specific hotel from db
+  const hotel = await Hotel.findOne({ hotelId: id }).exec();
+  // return hotel
+  return hotel;
 };
 
 // check how many hotels are in db
@@ -26,4 +49,4 @@ const hotelsCounter = async () => {
   return count;
 };
 
-module.exports = { addHotels, getHotels, hotelsCounter };
+module.exports = { addHotels, getHotels, getAllHotels, hotelsCounter, findHotel };
