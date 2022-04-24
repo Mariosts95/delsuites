@@ -5,6 +5,7 @@ const Hotel = require('../models/hotel');
 const addHotels = async (hotels) => {
   // map each hotel to a hotel model and save it to db
   await hotels.map((el) => {
+    el.name = el.name.replace(' [SANDBOX]', ''); // remove the [SANDBOX] from the hotel name
     const hotel = new Hotel(el);
     hotel.save();
   });
