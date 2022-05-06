@@ -1,3 +1,6 @@
+import { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
 // Context
 import HotelsProvider from './store/HotelsProvider';
 
@@ -9,7 +12,8 @@ import { ThemeProvider, Paper } from '@mui/material';
 import { lightTheme, darkTheme } from './helpers/theme';
 
 // Screens
-import Home from './screens/Home';
+const Home = lazy(() => import('./screens/Home'));
+const Hotel = lazy(() => import('./screens/Hotel'));
 
 function App() {
   return (
@@ -17,7 +21,25 @@ function App() {
       <Paper>
         <Header />
         <HotelsProvider>
-          <Home />
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <Suspense fallback={<div>...loading</div>}>
+                  <Home />
+                </Suspense>
+              }
+            />
+            <Route
+              path='hotel/:id'
+              element={
+                <Suspense fallback={<div>...loading</div>}>
+                  <Hotel />
+                </Suspense>
+              }
+            />
+            <Route path='*' element={<h1>404 Not Found</h1>} />
+          </Routes>
         </HotelsProvider>
       </Paper>
     </ThemeProvider>
