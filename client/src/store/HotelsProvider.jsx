@@ -32,12 +32,20 @@ const HotelsProvider = ({ children }) => {
       });
   };
 
+  // find hotel by id
+  const findHotelById = (id) => {
+    console.log(id);
+    return hotels.find((hotel) => hotel._id === id);
+  };
+
   useEffect(() => {
     updateHotels();
   }, []);
 
   return (
-    <HotelsContext.Provider value={{ hotels, hotelsLoading, hotelsError }}>
+    <HotelsContext.Provider
+      value={{ hotels, hotelsLoading, hotelsError, findHotelById }}
+    >
       {children}
     </HotelsContext.Provider>
   );
