@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // Services
 import { fetchHotel } from '../services/hotels';
+
+// Context
+import { UseReservation } from '../store/ReservationProvider';
 
 // @Material UI
 import Box from '@mui/material/Box';
@@ -20,6 +23,11 @@ import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import GroupIcon from '@mui/icons-material/Group';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // Components
 import Carousel from '../components/UI/Carousel';
@@ -30,17 +38,18 @@ const Hotel = () => {
   const [hotel, setHotel] = useState(null);
   const [hotelLoading, setHotelLoading] = useState(true);
   const [hotelError, setHotelError] = useState(null);
-
   const [selectedDays, setSelectedDays] = useState();
 
+  const { reservation, updateReservation } = UseReservation();
+
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchHotel(id)
       .then(({ data }) => {
         setHotel(data);
         setHotelLoading(false);
-        console.log(data);
       })
       .catch((err) => {
         setHotelError(err);
@@ -85,10 +94,10 @@ const Hotel = () => {
                 </Typography>
                 <List>
                   {hotel.amenities.map((amenity) => (
-                    <>
-                      <ListItem key={amenity._id}>{amenity.formatted}</ListItem>
-                      <Divider key={amenity.code}></Divider>
-                    </>
+                    <Box key={amenity._id}>
+                      <ListItem>{amenity.formatted}</ListItem>
+                      <Divider></Divider>
+                    </Box>
                   ))}
                 </List>
               </CardContent>
@@ -104,9 +113,9 @@ const Hotel = () => {
                   {hotel.phoneNumbers > 1 ? 'Phones' : 'Phone'}
                 </Typography>
                 <List>
-                  {hotel.phoneNumbers.map((phoneNumber, index) => (
-                    <>
-                      <ListItem key={phoneNumber}>
+                  {hotel.phoneNumbers.map((phoneNumber) => (
+                    <Box key={phoneNumber}>
+                      <ListItem>
                         <Link
                           href={`tel:+${phoneNumber}`}
                           sx={{ color: 'primary.contrastText' }}
@@ -114,17 +123,17 @@ const Hotel = () => {
                           {phoneNumber}
                         </Link>
                       </ListItem>
-                      <Divider key={index}></Divider>
-                    </>
+                      <Divider></Divider>
+                    </Box>
                   ))}
                 </List>
                 <Typography gutterBottom variant='body2' component='p'>
                   {hotel.emails > 1 ? 'Emails' : 'Email'}
                 </Typography>
                 <List>
-                  {hotel.emails.map((email, index) => (
-                    <>
-                      <ListItem key={email}>
+                  {hotel.emails.map((email) => (
+                    <Box key={email}>
+                      <ListItem>
                         <Link
                           href={`mailto:${email}`}
                           sx={{ color: 'primary.contrastText' }}
@@ -132,9 +141,21 @@ const Hotel = () => {
                           {email}
                         </Link>
                       </ListItem>
-                      <Divider key={index}></Divider>
-                    </>
+                      <Divider></Divider>
+                    </Box>
                   ))}
+                </List>
+                <Typography gutterBottom variant='body2' component='p'>
+                  Reception
+                </Typography>
+                <List>
+                  <Box>
+                    <ListItem>
+                      Check-in: {hotel.checkIn.from} - {hotel.checkIn.to}
+                    </ListItem>
+                    <ListItem>Check-out: {hotel.checkOut.to}</ListItem>
+                    <Divider></Divider>
+                  </Box>
                 </List>
               </CardContent>
             </Card>
@@ -146,62 +167,91 @@ const Hotel = () => {
         </Typography>
         <Grid container spacing={3}>
           {hotel.roomTypes.map((roomType) => (
-            <Grid item xs={12} sm={6} lg={4}>
-              <Card
-                key={roomType._id}
-                sx={{ backgroundColor: 'secondary.dark' }}
-              >
+            <Grid key={roomType._id} item xs={12} sm={6} lg={4}>
+              <Card sx={{ backgroundColor: 'secondary.dark' }}>
                 <CardMedia
                   sx={{ pt: '56.25%' }}
                   image={roomType.images[0]?.url}
                   alt='hotel img'
                 />
                 <CardContent>
-                  <Typography gutterBottom variant='h5' component='h5'>
-                    {roomType.name}
-                  </Typography>
-                  <Typography gutterBottom variant='body2'>
-                    {roomType.description}
-                  </Typography>
-                  <Typography gutterBottom variant='h5' component='h5'>
-                    Amenities
-                  </Typography>
-                  <List>
-                    {roomType.amenities.map((amenity) => (
-                      <Chip
-                        color='secondary'
-                        sx={{ mr: 1, mb: 1 }}
-                        key={amenity._id}
-                        label={amenity.formatted}
-                        onClick={() => {}}
-                      />
-                    ))}
-                  </List>
+                  <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Typography gutterBottom variant='h5' component='h5'>
+                        {roomType.name} - {roomType.maxOccupancy}{' '}
+                        <GroupIcon fontSize='small' />
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography gutterBottom variant='body2'>
+                        {roomType.description}
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+
+                  <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Typography gutterBottom variant='h5' component='h5'>
+                        Amenities
+                      </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <List>
+                        {roomType.amenities.map((amenity) => (
+                          <Chip
+                            key={amenity._id}
+                            color='primary'
+                            sx={{ mr: 1, mb: 1, color: 'primary.contrastText' }}
+                            variant='outlined'
+                            label={amenity.formatted}
+                            onClick={() => {}}
+                          />
+                        ))}
+                      </List>
+                    </AccordionDetails>
+                  </Accordion>
                 </CardContent>
                 <CardActions>
-                  <Autocomplete
-                    disablePortal
-                    id='staying-days'
-                    options={days}
-                    sx={{ width: 300 }}
-                    onChange={(e, value) => {
-                      setSelectedDays(value);
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} label='Days' />
-                    )}
-                  />
-                  <Button
-                    size='small'
-                    variant='contained'
-                    onClick={() => {
-                      console.log('Room Id: ', roomType._id);
-                      console.log('Hotel Id: ', hotel._id);
-                      console.log('Days: ', selectedDays);
-                    }}
+                  <Grid
+                    container
+                    alignContent={'center'}
+                    justifyContent={'space-between'}
                   >
-                    Book
-                  </Button>
+                    <Grid item>
+                      <Autocomplete
+                        disablePortal
+                        id='staying-days'
+                        options={days}
+                        sx={{ width: 300 }}
+                        onChange={(e, value) => {
+                          setSelectedDays(value);
+                        }}
+                        renderInput={(params) => (
+                          <TextField {...params} label='Days' />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Button
+                        variant='contained'
+                        size='large'
+                        onClick={() => {
+                          if (selectedDays) {
+                            updateReservation({
+                              checkIn: hotel.checkIn.from,
+                              checkOut: hotel.checkOut.to,
+                              hotelId: id,
+                              roomId: roomType._id,
+                              days: selectedDays,
+                            });
+                            navigate(`/reservation`);
+                          }
+                        }}
+                      >
+                        Book
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </CardActions>
               </Card>
             </Grid>

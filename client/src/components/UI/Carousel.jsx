@@ -17,7 +17,13 @@ const Carousel = ({ images }) => {
       speed={1000}
       effect='coverflow'
       loop
-      style={{ borderRadius: '4px' }}
+      style={{
+        maxWidth: '1280px',
+        width: '100%',
+        borderRadius: '4px',
+        margin: '0 auto',
+        maxHeight: '720px',
+      }}
     >
       {images.map((image) => (
         <SwiperSlide key={image._id}>
@@ -27,7 +33,8 @@ const Carousel = ({ images }) => {
             style={{
               objectFit: 'cover',
               objectPosition: 'center',
-              height: '100%',
+              width: '100%',
+              height: 'auto',
               margin: '0 auto',
             }}
           />

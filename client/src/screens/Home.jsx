@@ -5,7 +5,7 @@ import { UseHotels } from '../store/HotelsProvider';
 import Grid from '@mui/material/Grid';
 
 // Components
-import Card from '../components/UI/Card';
+import HotelCard from '../components/UI/HotelCard';
 import PageWrapper from '../components/UI/PageWrapper';
 import CardsLoading from '../components/UI/CardsLoading';
 
@@ -26,7 +26,7 @@ const Home = () => {
       <Grid container spacing={3}>
         {hotels.map((hotel, index) => (
           <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
-            <Card
+            <HotelCard
               id={hotel.hotelId}
               name={hotel.name}
               description={hotel.description.short}
@@ -34,6 +34,7 @@ const Home = () => {
               location={hotel.location}
               address={hotel.address}
               starRating={hotel.starRating}
+              roomsNumber={hotel.roomCount}
             />
           </Grid>
         ))}

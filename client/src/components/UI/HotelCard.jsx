@@ -7,12 +7,12 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Link as MuiLink } from '@mui/material';
+import KingBedIcon from '@mui/icons-material/KingBed';
 
 // Components
 import StarsRating from './StarsRating';
 
-const NewCard = ({
+const HotelCard = ({
   id,
   name,
   description,
@@ -20,6 +20,7 @@ const NewCard = ({
   address,
   images,
   location,
+  roomsNumber,
 }) => {
   return (
     <Card sx={{ backgroundColor: 'secondary.dark' }}>
@@ -30,6 +31,10 @@ const NewCard = ({
         </Typography>
         <Typography gutterBottom variant='body2'>
           {address.city}, {address.countryName}
+        </Typography>
+
+        <Typography color='text.secondary' sx={{ display: 'flex' }}>
+          Rooms: <KingBedIcon fontSize='small' sx={{ mx: 1 }} /> {roomsNumber}
         </Typography>
 
         <StarsRating value={starRating} />
@@ -43,23 +48,25 @@ const NewCard = ({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size='small' variant='contained'>
-          <Link to={`/hotel/${id}`} style={{ color: '#fff' }}>
-            View
+        <Button variant='contained'>
+          <Link to={`/hotel/${id}`}>
+            <Typography variant='body2' color='text.secondary'>
+              View
+            </Typography>
           </Link>
         </Button>
-        <Button size='small' variant='outlined'>
-          <MuiLink
-            href={`https://www.google.com/maps/@${location.latitude},${location.longitude},14z`}
-            underline='none'
-            target='_blank'
-          >
-            View on Google Maps
-          </MuiLink>
+        <Button
+          variant='outlined'
+          href={`https://www.google.com/maps/@${location.latitude},${location.longitude},14z`}
+          target='_blank'
+          underline='none'
+          sx={{ ml: 2 }}
+        >
+          View on Google Maps
         </Button>
       </CardActions>
     </Card>
   );
 };
 
-export default NewCard;
+export default HotelCard;
