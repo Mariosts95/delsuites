@@ -4,3 +4,14 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 }
+
+// Date picker mini fixes
+.date-picker {
+  .rdrCalendarWrapper,
+  .rdrDateDisplayWrapper {
+    border-radius: 4px;
+  }
+  .rdrDefinedRangesWrapper {
+    display: none;
+  }
+}

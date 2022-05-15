@@ -1,7 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 
-// create context
-const ReservationContext = createContext();
+const ReservationContext = createContext({});
 
 const UseReservation = () => useContext(ReservationContext);
 
@@ -11,12 +10,16 @@ const ReservationProvider = ({ children }) => {
     checkOut: null,
     hotelId: null,
     roomId: null,
-    days: null,
+    nights: null,
+    reachedCheckout: false,
   });
 
   // update reservation
-  const updateReservation = (newReservation) => {
-    setReservation(newReservation);
+  const updateReservation = async (newReservation) => {
+    await setReservation((prev) => ({
+      ...prev,
+      ...newReservation,
+    }));
   };
 
   return (

@@ -10,16 +10,12 @@ const UseHotels = () => useContext(HotelsContext);
 
 const HotelsProvider = ({ children }) => {
   const [hotels, setHotels] = useState([]);
-  const [hotelsLoading, setHotelsLoading] = useState(false);
-  const [hotelsError, setHotelsError] = useState(null);
+  const [hotelsLoading, setHotelsLoading] = useState(true);
   const [hotelsCurrentPage, setHotelsCurrentPage] = useState(1);
   const [hotelsPerPage, setHotelsPerPage] = useState(30);
 
   // update hotels
   const updateHotels = async () => {
-    setHotelsLoading(true);
-    setHotelsError(null);
-
     fetchHotels(hotelsCurrentPage, hotelsPerPage)
       .then(({ data }) => {
         // TODO: change to paginated
@@ -39,13 +35,12 @@ const HotelsProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    updateHotels();
+    const fakeDelay = setTimeout(updateHotels, 2000);
+    return () => clearTimeout(fakeDelay);
   }, []);
 
   return (
-    <HotelsContext.Provider
-      value={{ hotels, hotelsLoading, hotelsError, findHotelById }}
-    >
+    <HotelsContext.Provider value={{ hotels, hotelsLoading, findHotelById }}>
       {children}
     </HotelsContext.Provider>
   );

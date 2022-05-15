@@ -1,44 +1,44 @@
+import { Link } from 'react-router-dom';
+
 // Context
-import { UseHotels } from '../store/HotelsProvider';
+import { UseReservation } from '../store/ReservationProvider';
 
 // @Material UI
 import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 // Components
-import HotelCard from '../components/UI/HotelCard';
+import DatePicker from '../components/UI/DatePicker';
 import PageWrapper from '../components/UI/PageWrapper';
-import CardsLoading from '../components/UI/CardsLoading';
 
 const Home = () => {
-  const { hotels, hotelsLoading } = UseHotels();
-
-  // loading state
-  if (hotelsLoading) {
-    return (
-      <PageWrapper>
-        <CardsLoading />
-      </PageWrapper>
-    );
-  }
+  const { reservation } = UseReservation();
 
   return (
     <PageWrapper>
-      <Grid container spacing={3}>
-        {hotels.map((hotel, index) => (
-          <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
-            <HotelCard
-              id={hotel.hotelId}
-              name={hotel.name}
-              description={hotel.description.short}
-              images={hotel.images}
-              location={hotel.location}
-              address={hotel.address}
-              starRating={hotel.starRating}
-              roomsNumber={hotel.roomCount}
-            />
-          </Grid>
-        ))}
+      <Typography variant='h3' align='center' gutterBottom>
+        Please select your dates
+      </Typography>
+      <Grid container justifyContent={'center'} spacing={3} color='#000'>
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <DatePicker />
+        </Grid>
       </Grid>
+      <Link
+        to={`${reservation.nights > 0 ? 'hotels' : '/'}`}
+        style={{ display: 'block', maxWidth: 'fit-content', margin: '0 auto' }}
+      >
+        <Button
+          variant='contained'
+          sx={{ display: 'block', p: 2, my: 3, mx: 'auto' }}
+          disabled={reservation.nights > 0 ? false : true}
+        >
+          <Typography variant='body1' color='text.secondary'>
+            Show me the hotels
+          </Typography>
+        </Button>
+      </Link>
     </PageWrapper>
   );
 };

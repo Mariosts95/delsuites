@@ -22,18 +22,16 @@ const StarsRating = ({ value }) => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        mt: 1,
-        mb: 1,
+        my: 1,
       }}
     >
       <Rating
         readOnly
-        name='hover-feedback'
         value={value}
         precision={0.5}
-        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize='inherit' />}
+        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize='inherit' />}
       />
-      {value !== null && <Box sx={{ ml: 2 }}>{labels[value]}</Box>}
+      {value !== null && <Box sx={{ ml: 1 }}>{labels[value]}</Box>}
     </Box>
   );
 };

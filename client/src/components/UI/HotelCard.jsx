@@ -25,19 +25,25 @@ const HotelCard = ({
   return (
     <Card sx={{ backgroundColor: 'secondary.dark' }}>
       <CardMedia sx={{ pt: '56.25%' }} image={images[0]?.url} alt='hotel img' />
+
       <CardContent>
         <Typography gutterBottom variant='h5' component='h5'>
           {name}
         </Typography>
+
         <Typography gutterBottom variant='body2'>
           {address.city}, {address.countryName}
         </Typography>
 
-        <Typography color='text.secondary' sx={{ display: 'flex' }}>
-          Rooms: <KingBedIcon fontSize='small' sx={{ mx: 1 }} /> {roomsNumber}
-        </Typography>
-
         <StarsRating value={starRating} />
+
+        <Typography
+          gutterBottom
+          color='text.secondary'
+          sx={{ display: 'flex' }}
+        >
+          Rooms: <KingBedIcon fontSize='medium' sx={{ mx: 1 }} /> {roomsNumber}
+        </Typography>
 
         <Typography
           variant='body2'
@@ -47,14 +53,15 @@ const HotelCard = ({
           {description}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button variant='contained'>
-          <Link to={`/hotel/${id}`}>
-            <Typography variant='body2' color='text.secondary'>
+
+      <CardActions sx={{ px: 2 }}>
+        <Link to={`/hotel/${id}`}>
+          <Button variant='contained'>
+            <Typography variant='body1' color='text.secondary'>
               View
             </Typography>
-          </Link>
-        </Button>
+          </Button>
+        </Link>
         <Button
           variant='outlined'
           href={`https://www.google.com/maps/@${location.latitude},${location.longitude},14z`}
@@ -62,7 +69,9 @@ const HotelCard = ({
           underline='none'
           sx={{ ml: 2 }}
         >
-          View on Google Maps
+          <Typography variant='body1' color='primary'>
+            View on Google Maps
+          </Typography>
         </Button>
       </CardActions>
     </Card>

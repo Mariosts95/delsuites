@@ -30,7 +30,6 @@ app.get('/', async (req, res) => {
 });
 
 // check if the db has already the hotels stored
-// TODO: clean this up if possible
 hotelsCounter()
   .then((count) => {
     if (!count) {

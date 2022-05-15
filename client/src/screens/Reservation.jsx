@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { format, differenceInDays } from 'date-fns';
 
 // Context
 import { UseReservation } from '../store/ReservationProvider';
@@ -9,9 +10,7 @@ import { fetchHotel } from '../services/hotels';
 // @Material UI
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
@@ -20,8 +19,6 @@ import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import GroupIcon from '@mui/icons-material/Group';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -32,12 +29,23 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HotelCard from '../components/UI/HotelCard';
 import PageWrapper from '../components/UI/PageWrapper';
 import CardsLoading from '../components/UI/CardsLoading';
-import StarsRating from '../components/UI/StarsRating';
+import InformationCardSection from '../components/UI/InformationCardSection';
+
+// Helpers
+// get random price based on rating
+const getRandomPrice = (min = 15, max = 30, hotelStars) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  const price = Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+  return price * hotelStars;
+};
 
 const Reservation = () => {
   const [hotel, setHotel] = useState(null);
-  const [room, setRoom] = useState(null);
   const [hotelLoading, setHotelLoading] = useState(true);
+
+  const [room, setRoom] = useState(null);
+  const [roomPrice, setRoomPrice] = useState(); // temporary fix of no price data
 
   const { reservation } = UseReservation();
 
@@ -51,11 +59,12 @@ const Reservation = () => {
         setRoom(
           hotelData.roomTypes.find((room) => room._id === reservation.roomId)
         );
+        setRoomPrice(getRandomPrice(15, 30, +hotelData?.starRating));
         setHotelLoading(false);
       });
   }, []);
 
-  // loading state
+  // safeguard against no hotel data
   if (hotelLoading) {
     return (
       <PageWrapper>
@@ -64,23 +73,14 @@ const Reservation = () => {
     );
   }
 
-  console.log(room);
-
   return (
     <PageWrapper>
-      <Grid container alignItems='center' justifyContent='space-around'>
-        <Typography variant='h1' gutterBottom>
+      <Grid container alignItems='center' justifyContent='space-between'>
+        <Typography variant='h2' component='h1' gutterBottom>
           Reservation Overview
         </Typography>
-        <Button
-          variant='contained'
-          size='large'
-          fullWidth
-          sx={{ display: 'block', maxWidth: 300, p: 2 }}
-        >
-          Checkout
-        </Button>
       </Grid>
+
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={4}>
           <HotelCard
@@ -94,6 +94,7 @@ const Reservation = () => {
             roomsNumber={hotel.roomCount}
           />
         </Grid>
+
         <Grid item xs={12} md={6} lg={4}>
           <Card sx={{ backgroundColor: 'secondary.dark' }}>
             <CardMedia
@@ -140,58 +141,62 @@ const Reservation = () => {
             </CardContent>
           </Card>
         </Grid>
+
         <Grid item md={12} lg={4}>
           <Card sx={{ backgroundColor: 'secondary.dark' }}>
             <CardContent>
               <Typography gutterBottom variant='h5' component='h5'>
                 Useful Information
               </Typography>
-              <Typography gutterBottom variant='body2' component='p'>
-                {hotel.phoneNumbers > 1 ? 'Phones' : 'Phone'}
-              </Typography>
-              <List>
-                {hotel.phoneNumbers.map((phoneNumber) => (
-                  <Box key={phoneNumber}>
-                    <ListItem>
-                      <Link
-                        href={`tel:+${phoneNumber}`}
-                        sx={{ color: 'primary.contrastText' }}
-                      >
-                        {phoneNumber}
-                      </Link>
-                    </ListItem>
-                    <Divider></Divider>
-                  </Box>
-                ))}
-              </List>
-              <Typography gutterBottom variant='body2' component='p'>
-                {hotel.emails > 1 ? 'Emails' : 'Email'}
-              </Typography>
-              <List>
-                {hotel.emails.map((email) => (
-                  <Box key={email}>
-                    <ListItem>
-                      <Link
-                        href={`mailto:${email}`}
-                        sx={{ color: 'primary.contrastText' }}
-                      >
-                        {email}
-                      </Link>
-                    </ListItem>
-                    <Divider></Divider>
-                  </Box>
-                ))}
-              </List>
-              <Typography gutterBottom variant='body2' component='p'>
+              <InformationCardSection
+                title={hotel.phoneNumbers > 1 ? 'Phones' : 'Phone'}
+                items={hotel.phoneNumbers}
+                type='tel'
+              />
+              <InformationCardSection
+                title={hotel.emails > 1 ? 'Emails' : 'Email'}
+                items={hotel.emails}
+                type='mailto'
+              />
+              <Typography gutterBottom variant='body1' component='p'>
                 Reception
               </Typography>
               <List>
                 <Box>
                   <ListItem>
-                    Check-in: {hotel.checkIn.from} - {hotel.checkIn.to}
+                    Check-in: {format(reservation.checkIn, 'd LLL yyyy')} -
+                    Hours: {hotel.checkIn.from} - {hotel.checkIn.to}
                   </ListItem>
-                  <ListItem>Check-out: {hotel.checkOut.to}</ListItem>
+                  <ListItem>
+                    Check-out: {format(reservation.checkOut, 'd LLL yyyy')} -
+                    Hours: {hotel.checkOut.to}
+                  </ListItem>
                   <Divider></Divider>
+                </Box>
+              </List>
+              <Typography gutterBottom variant='body1' component='p'>
+                Price
+              </Typography>
+              <List>
+                <Box>
+                  <ListItem>
+                    {reservation.nights} X {roomPrice}€ ={' '}
+                    {reservation.nights * roomPrice}€
+                  </ListItem>
+                  <Divider></Divider>
+                  <Button
+                    variant='contained'
+                    size='large'
+                    fullWidth
+                    sx={{
+                      display: 'block',
+                      p: 2,
+                      mt: 2,
+                      mx: 'auto',
+                    }}
+                  >
+                    Checkout
+                  </Button>
                 </Box>
               </List>
             </CardContent>

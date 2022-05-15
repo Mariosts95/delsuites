@@ -2,8 +2,7 @@
 import Grid from '@mui/material/Grid';
 import CardSkeleton from './CardSkeleton';
 
-// how many cards to show
-const cardsLoading = [...Array(10)];
+const cardsLoading = [...Array(10)]; // how many cards to show
 
 const CardsLoading = () => {
   return (

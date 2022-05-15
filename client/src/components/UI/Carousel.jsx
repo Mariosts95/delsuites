@@ -1,8 +1,8 @@
-// Import Swiper React components
+// Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectCoverflow } from 'swiper';
 
-// Import Swiper styles
+// Swiper styles
 import 'swiper/css';
 import 'swiper/css/autoplay';
 

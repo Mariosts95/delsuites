@@ -10,12 +10,19 @@ import Header from './components/layout/Header';
 
 // Theme
 import { ThemeProvider, Paper } from '@mui/material';
-import { lightTheme, darkTheme } from './helpers/theme';
+import { darkTheme } from './helpers/theme';
+
+// Components
+import Spinner from './components/UI/Spinner';
+import CardsLoading from './components/UI/CardsLoading';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Screens
 const Home = lazy(() => import('./screens/Home'));
+const HotelsList = lazy(() => import('./screens/HotelsList'));
 const Hotel = lazy(() => import('./screens/Hotel'));
 const Reservation = lazy(() => import('./screens/Reservation'));
+const NotFound = lazy(() => import('./screens/NotFound'));
 
 function App() {
   return (
@@ -28,15 +35,23 @@ function App() {
               <Route
                 path='/'
                 element={
-                  <Suspense fallback={<div>...loading</div>}>
+                  <Suspense fallback={<Spinner />}>
                     <Home />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='hotels'
+                element={
+                  <Suspense fallback={<CardsLoading />}>
+                    <HotelsList />
                   </Suspense>
                 }
               />
               <Route
                 path='hotel/:id'
                 element={
-                  <Suspense fallback={<div>...loading</div>}>
+                  <Suspense fallback={<Spinner />}>
                     <Hotel />
                   </Suspense>
                 }
@@ -44,12 +59,21 @@ function App() {
               <Route
                 path='reservation'
                 element={
-                  <Suspense fallback={<div>...loading</div>}>
-                    <Reservation />
+                  <Suspense fallback={<Spinner />}>
+                    <ProtectedRoute>
+                      <Reservation />
+                    </ProtectedRoute>
                   </Suspense>
                 }
               />
-              <Route path='*' element={<h1>404 Not Found</h1>} />
+              <Route
+                path='*'
+                element={
+                  <Suspense fallback={<Spinner />}>
+                    <NotFound />
+                  </Suspense>
+                }
+              />
             </Routes>
           </HotelsProvider>
         </ReservationProvider>
