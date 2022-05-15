@@ -1,0 +1,21 @@
+:root {
+  // pallette
+  --primary-color: #8a7955;
+  --secondary-color: #1d2c38;
+
+  --text-white: #f2f2f2;
+  --text-gray: #4d4d4d;
+  --text-black: #232323;
+
+  // fonts
+  --brand-font: 'Montserrat Light Alt1';
+}
+
+$primary_color: var(--primary-color);
+$secondary_color: var(--secondary-color);
+
+$text_white: var(--text-white);
+$text_gray: var(--text-gray);
+$text_black: var(--text-black);
+
+$brand_font: var(--brand-font);
