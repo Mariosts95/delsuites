@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { getHotels, findHotel } = require('../../database/actions/hotels');
+const { getHotels, findHotel, hotelsCounter } = require('../../database/actions/hotels');
 
 // get hotels
 router.get('/hotels', async (req, res) => {
@@ -11,6 +11,20 @@ router.get('/hotels', async (req, res) => {
     if (!hotels.length) throw { status: 400, statusMessage: 'Error on receiving the hotels' }; // if there are no hotels throw an error
 
     return res.status(200).send(hotels);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
+// get hotels pages
+router.get('/hotels/info', async (req, res) => {
+  const { size } = await req.query; // get the parameters from query
+
+  try {
+    const hotelsNumber = await hotelsCounter(); // get how many hotels are in db
+    const hotelPages = hotelsNumber / size; // get how many pages are in db
+
+    return res.status(200).send({ hotelPages });
   } catch (error) {
     return res.status(400).send(error);
   }

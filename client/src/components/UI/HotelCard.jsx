@@ -24,7 +24,7 @@ const HotelCard = ({
 }) => {
   return (
     <Card sx={{ backgroundColor: 'secondary.dark' }}>
-      <CardMedia sx={{ pt: '56.25%' }} image={images[0]?.url} alt='hotel img' />
+      <CardMedia sx={{ pt: '56.25%' }} image={images[0]?.url} alt={name} />
 
       <CardContent>
         <Typography gutterBottom variant='h5' component='h5'>

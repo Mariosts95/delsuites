@@ -1,9 +1,16 @@
 import axios from 'axios';
 
 // fetch hotels from API
-const fetchHotels = async (page = 1, size = 10) => {
+const fetchHotels = async (from = 0, size = 10) => {
   return await axios.get(`${import.meta.env.VITE_API_BASE_PATH}/hotels`, {
-    params: { page, size },
+    params: { from: from - 1, size },
+  });
+};
+
+// fetch hotels pages from API
+const fetchHotelsPages = async (size = 10) => {
+  return await axios.get(`${import.meta.env.VITE_API_BASE_PATH}/hotels/info`, {
+    params: { size },
   });
 };
 
@@ -12,4 +19,4 @@ const fetchHotel = async (id) => {
   return await axios.get(`${import.meta.env.VITE_API_BASE_PATH}/hotel/${id}`);
 };
 
-export { fetchHotels, fetchHotel };
+export { fetchHotels, fetchHotel, fetchHotelsPages };

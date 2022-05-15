@@ -8,7 +8,7 @@ const CardsLoading = () => {
   return (
     <Grid container spacing={3}>
       {cardsLoading.map((_, index) => (
-        <Grid key={index} item xs={12} sm={6} lg={4} xl={3}>
+        <Grid key={index} item xs={12} sm={6} xl={4}>
           <CardSkeleton />
         </Grid>
       ))}

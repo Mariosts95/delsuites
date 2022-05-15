@@ -30,7 +30,7 @@ const getHotels = async (page, size) => {
     .skip(page * size)
     .limit(size)
     .exec();
-  // return hotels
+
   return hotels;
 };
 
@@ -38,7 +38,7 @@ const getHotels = async (page, size) => {
 const findHotel = async (id) => {
   // get specific hotel from db
   const hotel = await Hotel.findOne({ hotelId: id }).exec();
-  // return hotel
+
   return hotel;
 };
 
