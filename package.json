@@ -8,6 +8,8 @@
     "server"
   ],
   "scripts": {
+    "build": "cd client && yarn build",
+    "start": "cd server && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start_client": "yarn workspace client dev",
     "start_server": "yarn workspace server start_dev"
@@ -21,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/Mariosts95/delsuites/issues"
   },
-  "homepage": "https://github.com/Mariosts95/delsuites#readme"
+  "homepage": "https://github.com/Mariosts95/delsuites#readme",
+  "engines": {
+    "node": "16.x"
+  }
 }

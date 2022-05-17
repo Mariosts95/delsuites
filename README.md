@@ -1,7 +1,16 @@
-# DELSUITES
+<h1 align="center">
+  DELSUITES
+</h1>
+
+<p align="center">
+  <img src="https://github.com/Mariosts95/delsuites/blob/main/client/public/images/delsuites-logo.svg" width="250">
+</p>
 
 ## Description
 Delsuites is a web application that provides an all-inclusive booking system with beautiful, modern, & luxury suites from all over world.
+
+## View the application live
+#### Heroku: [delsuites](https://delsuites.herokuapp.com/)
 
 ## Technologies used
 
