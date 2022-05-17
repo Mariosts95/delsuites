@@ -5,6 +5,7 @@
   "main": "app.js",
   "license": "MIT",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start_dev": "nodemon -r dotenv/config app.js"
   },
@@ -16,5 +17,8 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.0"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
