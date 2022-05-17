@@ -1,6 +1,9 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const routes = require('./routes');
+
+const pathName = path.join(__dirname, '/../client/dist');
 
 // import the hotels service
 const { fetchHotels } = require('./services/fetchHotels');
@@ -25,8 +28,7 @@ app.use('/', routes);
 
 // root router
 app.get('/', async (req, res) => {
-  const hotels = await getAllHotels();
-  return res.send(hotels);
+  res.sendFile(pathName);
 });
 
 // check if the db has already the hotels stored
@@ -50,6 +52,6 @@ hotelsCounter()
   });
 
 // initialize the server
-app.listen(process.env.PORT || 3101, () => {
+app.use(express.static(pathName)).listen(process.env.PORT || 3101, () => {
   console.log(`delsuites server is listening on port ${process.env.PORT || 3101}!`);
 });

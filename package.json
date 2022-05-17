@@ -8,11 +8,10 @@
     "server"
   ],
   "scripts": {
-    "start": "yarn workspace server start",
+    "start": "yarn workspace client vite build && yarn workspace server start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start_client": "yarn workspace client dev",
-    "start_server": "yarn workspace server start_dev",
-    "deploy_client": "yarn workspace client vite build && firebase deploy"
+    "start_server": "yarn workspace server start_dev"
   },
   "repository": {
     "type": "git",
