@@ -45,9 +45,8 @@ const Reservation = () => {
   const [hotelLoading, setHotelLoading] = useState(true);
 
   const [room, setRoom] = useState(null);
-  const [roomPrice, setRoomPrice] = useState(); // temporary fix of no price data
 
-  const { reservation } = UseReservation();
+  const { reservation, updateReservation, checkout } = UseReservation();
 
   useEffect(() => {
     fetchHotel(reservation.hotelId)
@@ -59,7 +58,10 @@ const Reservation = () => {
         setRoom(
           hotelData.roomTypes.find((room) => room._id === reservation.roomId)
         );
-        setRoomPrice(getRandomPrice(15, 30, +hotelData?.starRating));
+        updateReservation({
+          nightPrice: getRandomPrice(15, 30, +hotelData?.starRating), // temporary fix of no price data
+          image: hotelData.images[0].url,
+        });
         setHotelLoading(false);
       });
   }, []);
@@ -180,8 +182,8 @@ const Reservation = () => {
               <List>
                 <Box>
                   <ListItem>
-                    {reservation.nights} X {roomPrice}€ ={' '}
-                    {reservation.nights * roomPrice}€
+                    {reservation.nights} X {reservation?.nightPrice}€ ={' '}
+                    {reservation.nights * reservation?.nightPrice}€
                   </ListItem>
                   <Divider></Divider>
                   <Button
@@ -194,6 +196,7 @@ const Reservation = () => {
                       mt: 2,
                       mx: 'auto',
                     }}
+                    onClick={checkout}
                   >
                     Checkout
                   </Button>

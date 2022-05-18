@@ -7,9 +7,11 @@
 </p>
 
 ## Description
+
 Delsuites is a web application that provides an all-inclusive booking system with beautiful, modern, & luxury suites from all over world.
 
 ## View the application live
+
 #### Heroku: [delsuites](https://delsuites.herokuapp.com/)
 
 ## Technologies used
@@ -24,6 +26,8 @@ Delsuites is a web application that provides an all-inclusive booking system wit
 
 ### <img src="https://mui.com/static/logo.png" width="20"> [Material UI](https://mui.com/)
 
+### <img src="https://assets.website-files.com/60d5e12b5c772dbf7315804e/6127ddadabd8205a78c21a42_sq.png" width="20"> [Stripe](https://stripe.com/)
+
 ### <img src="https://cdn-icons-png.flaticon.com/512/5968/5968322.png" width="20"> [Node.js](https://nodejs.org/en/)
 
 ### <img src="https://expressjs.com/images/favicon.png" width="20"> [Express](https://expressjs.com/)
@@ -37,25 +41,49 @@ Delsuites is a web application that provides an all-inclusive booking system wit
 ### Clone the monorepo
 
 ### Install the dependencies
+
 `yarn` or `npm install` in the root folder
 
 ### Copy file (Server)
+
 `.env.example` to `.env` and pass the PORT, DATABASE URI, HOTELS API ENDPOINT and API KEY
 
 ### Copy file (Client)
+
 `.env.example` to `.env` and pass the API ENDPOINT
 
 ### Start the development server (Server)
+
 `yarn start_server` or `npm run start_server` in the root folder
 
 ### Start the development server (Client)
+
 `yarn start_client` or `npm run start_client` in the root folder
 
 ### Build for production (Client)
+
 `yarn build` or `npm run build` in the client folder
 
 ### Locally preview production build (Client)
+
 `yarn serve` or `npm run serve` in the client folder
 
 ### Open your browser and visit
+
 `http://localhost:3000/`
+
+## Checkout
+
+### Testing cards for the checkout
+
+#### Valid card
+
+`4242 4242 4242 4242`
+
+#### Invalid card
+
+`4000 0000 0000 0002`
+
+- Use a valid future date, such as 12/34.
+- Use any three-digit CVC (four digits for American Express cards)
+- Use any value you like for other form fields.
