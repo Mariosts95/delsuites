@@ -43,7 +43,6 @@ const HotelsProvider = ({ children }) => {
 
   // find hotel by id
   const findHotelById = (id) => {
-    console.log(id);
     return hotels.find((hotel) => hotel._id === id);
   };
 

@@ -51,6 +51,8 @@ const Hotel = () => {
   const onBookHandler = (room) => {
     updateReservation({
       hotelId: id,
+      hotelName: hotel.name,
+      currency: hotel.currency,
       roomId: room._id,
       reachedCheckout: true,
     }).then(() => {
