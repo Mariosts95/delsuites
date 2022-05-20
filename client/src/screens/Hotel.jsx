@@ -66,7 +66,7 @@ const Hotel = () => {
         <Carousel images={hotel.images} />
       </Box>
 
-      <Typography sx={{ mb: 3 }} variant='h2' component='h1'>
+      <Typography sx={{ mb: 3 }} variant='h1' component='h1'>
         {hotel.name}
       </Typography>
 

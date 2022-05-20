@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 // Context
 import { UseHotels } from '../store/HotelsProvider';
 
@@ -10,14 +12,21 @@ import HotelCard from '../components/UI/HotelCard';
 import PageWrapper from '../components/UI/PageWrapper';
 import CardsLoading from '../components/UI/CardsLoading';
 
-const Home = () => {
+const Hotels = () => {
   const {
     hotels,
     hotelsLoading,
     hotelsPages,
     hotelsCurrentPage,
     changeHotelsCurrentPage,
+    updateHotels,
+    changeHotelsLoadingStatus,
   } = UseHotels();
+
+  useEffect(() => {
+    changeHotelsLoadingStatus(true);
+    updateHotels();
+  }, [hotelsCurrentPage]);
 
   // safeguard against empty data
   if (hotelsLoading) {
@@ -32,7 +41,7 @@ const Home = () => {
     <PageWrapper>
       <Grid container spacing={3}>
         {hotels.map((hotel) => (
-          <Grid key={hotel._id} item xs={12} sm={6} xl={4}>
+          <Grid key={hotel._id} item xs={12} md={6} xl={4}>
             <HotelCard
               id={hotel.hotelId}
               name={hotel.name}
@@ -68,4 +77,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Hotels;

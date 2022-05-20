@@ -23,7 +23,7 @@ const Header = () => {
     <AppBar position='static'>
       <Toolbar>
         <Grid container justifyContent='space-between' alignItems='center'>
-          <Grid item>
+          <Grid item xs={12} sm='auto'>
             <Link
               to='/'
               className='logo'
@@ -49,7 +49,16 @@ const Header = () => {
               </Typography>
             </Link>
           </Grid>
-          <Grid item>
+          <Grid
+            item
+            xs={12}
+            sm='auto'
+            sx={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: { xs: 'center', md: 'end' },
+            }}
+          >
             <Link to='/'>
               {reservation.checkIn && reservation.checkOut ? (
                 <Typography
@@ -66,7 +75,16 @@ const Header = () => {
             </Link>
           </Grid>
           {reservation.reachedCheckout && location.pathname !== '/reservation' && (
-            <Grid item>
+            <Grid
+              item
+              xs={12}
+              sm='auto'
+              sx={{
+                display: 'flex',
+                width: '100%',
+                justifyContent: { xs: 'center', md: 'end' },
+              }}
+            >
               <Link to='/reservation'>
                 <Button variant='contained'>Reservation</Button>
               </Link>

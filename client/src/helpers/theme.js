@@ -46,6 +46,18 @@ const darkTheme = createTheme({
   },
   typography: {
     fontFamily: 'Montserrat',
+    h1: {
+      fontSize: '2.5rem',
+      '@media (min-width:900px)': {
+        fontSize: '4rem',
+      },
+    },
+    h3: {
+      fontSize: '2rem',
+      '@media (min-width:900px)': {
+        fontSize: '3rem',
+      },
+    },
   },
   components: {
     MuiAppBar: {

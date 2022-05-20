@@ -78,7 +78,7 @@ const Reservation = () => {
   return (
     <PageWrapper>
       <Grid container alignItems='center' justifyContent='space-between'>
-        <Typography variant='h2' component='h1' gutterBottom>
+        <Typography variant='h1' component='h1' gutterBottom>
           Reservation Overview
         </Typography>
       </Grid>

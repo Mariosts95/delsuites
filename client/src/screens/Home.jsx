@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 // Context
 import { UseReservation } from '../store/ReservationProvider';
+import { UseHotels } from '../store/HotelsProvider';
 
 // @Material UI
 import Grid from '@mui/material/Grid';
@@ -14,10 +15,11 @@ import PageWrapper from '../components/UI/PageWrapper';
 
 const Home = () => {
   const { reservation } = UseReservation();
+  const { updateHotelsPages, changeHotelsCurrentPage } = UseHotels();
 
   return (
     <PageWrapper>
-      <Typography variant='h3' align='center' gutterBottom>
+      <Typography variant='h3' component='h1' align='center' gutterBottom>
         Please select your dates
       </Typography>
       <Grid container justifyContent={'center'} spacing={3} color='#000'>
@@ -28,6 +30,12 @@ const Home = () => {
       <Link
         to={`${reservation.nights > 0 ? 'hotels' : '/'}`}
         style={{ display: 'block', maxWidth: 'fit-content', margin: '0 auto' }}
+        onClick={() => {
+          if (reservation.nights > 0) {
+            updateHotelsPages();
+            changeHotelsCurrentPage(1); // reset to first page after added new dates
+          }
+        }}
       >
         <Button
           variant='contained'
