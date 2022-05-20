@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 // Services
 import { fetchHotels, fetchHotelsPages } from '../services/hotels';
@@ -13,43 +13,37 @@ const HotelsProvider = ({ children }) => {
   const [hotelsLoading, setHotelsLoading] = useState(true);
   const [hotelsCurrentPage, setHotelsCurrentPage] = useState(1);
   const [hotelsPages, setHotelsPages] = useState(0);
-  const [hotelsPerPage, setHotelsPerPage] = useState(30);
 
   // update hotels
   const updateHotels = async () => {
-    fetchHotels(hotelsCurrentPage, hotelsPerPage).then(({ data }) => {
+    // second argument is hotels per page number, will change to state when pagination is completed, ref updateHotelsPages function
+    fetchHotels(hotelsCurrentPage, 18).then(({ data }) => {
       setHotels(data);
       setHotelsLoading(false);
     });
   };
 
-  // get hotel pages
-  useEffect(() => {
-    fetchHotelsPages(hotelsPerPage).then(({ data }) => {
+  const changeHotelsLoadingStatus = (status) => {
+    setHotelsLoading(status);
+  };
+
+  // change hotels current page from pagination in hotels view
+  const changeHotelsCurrentPage = (page) => {
+    setHotelsCurrentPage(page);
+  };
+
+  // get hotel pages from db
+  const updateHotelsPages = () => {
+    fetchHotelsPages(18).then(({ data }) => {
       const pages = Math.ceil(data.hotelPages);
       setHotelsPages(pages);
     });
-  }, []);
-
-  // update hotels on page change
-  useEffect(() => {
-    setHotelsLoading(true);
-    updateHotels();
-  }, [hotelsCurrentPage]);
-
-  const changeHotelsCurrentPage = (page) => {
-    setHotelsCurrentPage(page);
   };
 
   // find hotel by id
   const findHotelById = (id) => {
     return hotels.find((hotel) => hotel._id === id);
   };
-
-  useEffect(() => {
-    const fakeDelay = setTimeout(updateHotels, 2000);
-    return () => clearTimeout(fakeDelay);
-  }, []);
 
   return (
     <HotelsContext.Provider
@@ -60,6 +54,9 @@ const HotelsProvider = ({ children }) => {
         hotelsCurrentPage,
         changeHotelsCurrentPage,
         findHotelById,
+        updateHotels,
+        changeHotelsLoadingStatus,
+        updateHotelsPages,
       }}
     >
       {children}

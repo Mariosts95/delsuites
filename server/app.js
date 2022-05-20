@@ -2,9 +2,6 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const routes = require('./routes');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
-const clientPath = path.join(__dirname, '/../client/dist');
 
 // import the hotels service
 const { fetchHotels } = require('./services/fetchHotels');
@@ -27,41 +24,33 @@ app.use(express.json());
 // use the routes
 app.use('/', routes);
 
-// root router
-app.get('/', async (req, res) => {
-  res.sendFile(clientPath);
-});
+// path to the client
+const clientPath =
+  process.env.NODE_ENV === 'production' ? path.join(__dirname, '/../client/dist') : path.join(__dirname, '/../client');
 
-// checkout router
-app.post('/api/checkout', async (req, res) => {
-  const { reservationInfo } = await req.body; // get the reservation info from the body
+app.use(express.static(clientPath)); // serve the client build folder
 
-  try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      mode: 'payment',
-      line_items: reservationInfo.map((item) => {
-        return {
-          price_data: {
-            currency: item.currency,
-            product_data: {
-              name: item.name,
-              images: [item.image],
-            },
-            unit_amount: item.price * 100, // convert from cents
-          },
-          quantity: item.quantity,
-        };
-      }),
-      success_url: `https://giphy.com/gifs/westworldhbo-hbo-westworld-3o7TKqrIABvf6C224M/fullscreen`, // TODO: change this to the real url when I fix the deployment paths
-      cancel_url: `https://giphy.com/gifs/confused-travolta-poor-wallet-3o6UB5RrlQuMfZp82Y/fullscreen`, // TODO: change this to the real url when I fix the deployment paths
-    });
+// root router based on environment
+if (process.env.NODE_ENV === 'production') {
+  // redirect all other routes to the index.html
+  // TODO can't render directly the request page
+  app.get('/*', (req, res) => {
+    res
+      .writeHead(301, {
+        Location: `/`,
+      })
+      .end();
+    res.sendFile(clientPath);
+  });
 
-    res.json({ url: session.url });
-  } catch (err) {
-    res.send({ status: 'fail', message: err.message });
-  }
-});
+  app.get('/', (req, res) => {
+    res.sendFile(clientPath);
+  });
+} else {
+  app.get('/*', (req, res) => {
+    res.sendFile(clientPath);
+  });
+}
 
 // check if the db has already the hotels stored
 hotelsCounter()
@@ -84,6 +73,6 @@ hotelsCounter()
   });
 
 // initialize the server
-app.use(express.static(clientPath)).listen(process.env.PORT || 3101, () => {
+app.listen(process.env.PORT || 3101, () => {
   console.log(`delsuites server is listening on port ${process.env.PORT || 3101}!`);
 });
