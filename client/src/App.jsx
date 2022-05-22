@@ -16,6 +16,7 @@ import { darkTheme } from './helpers/theme';
 import Spinner from './components/UI/Spinner';
 import CardsLoading from './components/UI/CardsLoading';
 import ProtectedRoute from './components/ProtectedRoute';
+import Intro from './components/Intro';
 
 // Screens
 const Home = lazy(() => import('./screens/Home'));
@@ -30,6 +31,7 @@ function App() {
       <Paper>
         <ReservationProvider>
           <Header />
+          <Intro />
           <HotelsProvider>
             <Routes>
               <Route

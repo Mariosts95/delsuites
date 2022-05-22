@@ -58,6 +58,12 @@ const darkTheme = createTheme({
         fontSize: '3rem',
       },
     },
+    body1: {
+      fontSize: '0.8rem',
+      '@media (min-width:600px)': {
+        fontSize: '1rem',
+      },
+    },
   },
   components: {
     MuiAppBar: {
