@@ -12,6 +12,14 @@ import KingBedIcon from '@mui/icons-material/KingBed';
 // Components
 import StarsRating from './StarsRating';
 
+// Styles
+const descriptionStyle = {
+  overflow: 'hidden',
+  display: '-webkit-box',
+  WebkitBoxOrient: 'vertical',
+  WebkitLineClamp: 3,
+};
+
 const HotelCard = ({
   id,
   name,
@@ -48,7 +56,8 @@ const HotelCard = ({
         <Typography
           variant='body2'
           color='text.secondary'
-          className='hide-text'
+          style={descriptionStyle}
+          // className='hide-text'
         >
           {description}
         </Typography>
