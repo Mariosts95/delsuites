@@ -19,15 +19,16 @@ const fetchHotel = async (id) => {
   return await axios.get(`${import.meta.env.VITE_API_BASE_PATH}/hotel/${id}`);
 };
 
+// redirect to checkout page with reservation info
 const checkoutRequest = async (data) => {
-  return await axios.post(
-    `${import.meta.env.VITE_API_BASE_PATH}/checkout`,
-    JSON.stringify(data),
-    {
-      headers: {
-        'content-type': 'application/json',
-      },
-    }
-  );
+  return await axios({
+    method: 'post',
+    url: `${import.meta.env.VITE_API_BASE_PATH}/checkout`,
+    data: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 };
+
 export { fetchHotels, fetchHotel, fetchHotelsPages, checkoutRequest };
